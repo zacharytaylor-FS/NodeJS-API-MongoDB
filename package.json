@@ -1,0 +1,28 @@
+{
+	"name": "nodejs-mongodb-postman",
+	"version": "1.0.0",
+	"description": "Build an asynchronous Back-end Database Service",
+	"main": "server.js",
+	"scripts": {
+		"test": "jest --coverage",
+		"start": "nodemon server"
+	},
+	"keywords": [
+		"Asynchronous",
+		"API",
+		"Databases",
+		"Postman",
+		"Testing"
+	],
+	"author": "Zachary Taylor",
+	"license": "MIT",
+	"dependencies": {
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"morgan": "^1.10.0"
+	},
+	"devDependencies": {
+		"jest": "^29.5.0",
+		"nodemon": "^2.0.21"
+	}
+}
