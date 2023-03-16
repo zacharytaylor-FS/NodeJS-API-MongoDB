@@ -32,6 +32,18 @@ const kitty = new Cat({ name: "Zildjian" });
 kitty.save().then(() => console.log("meow"));
 ```
 
+**Restart MongoDB? -- Homebrew**
+
+```shell
+// To restart mongodb/brew/mongodb-community after an upgrade:
+  > brew services restart mongodb/brew/mongodb-community
+
+
+// Or, if you don't want/need a background service you can just run:
+  > /opt/homebrew/opt/mongodb-community/bin/mongod --config /opt/homebrew/etc/mongod.conf
+
+```
+
 ### Cross-Origin Resource Sharing - CORS
 
 -   > Headers
