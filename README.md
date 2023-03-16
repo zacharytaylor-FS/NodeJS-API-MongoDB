@@ -20,6 +20,18 @@
             -   Relationships between data
             -   Provides Schema Validation
 
+Example:
+
+```js
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://127.0.0.1:27017/test");
+
+const Cat = mongoose.model("Cat", { name: String });
+
+const kitty = new Cat({ name: "Zildjian" });
+kitty.save().then(() => console.log("meow"));
+```
+
 ### Cross-Origin Resource Sharing - CORS
 
 -   > Headers
@@ -39,6 +51,7 @@
 
 Resources used:
 
--   [Morgan](https://github.com/expressjs/morgan)
--   [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
--   [Express Routing](https://expressjs.com/en/guide/routing.html)
+-   [Mongoose](https://mongoosejs.com) - Object Data Modeling Library
+-   [Morgan](https://github.com/expressjs/morgan) - HTTP request logger middleware
+-   [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) - Cross Origin Resource Sharing
+-   [Express Routing](https://expressjs.com/en/guide/routing.html) - Routing for endpoints
