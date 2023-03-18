@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const authorRoutes = require('../api/routes/authors');
 const bookRoutes = require('../api/routes/books')
+require('dotenv').config();
 
 // * middleware for logging
 app.use(morgan('dev'))
@@ -53,6 +55,30 @@ app.use((error, req, res, next) => {
       method: req.method
     }
   })
-})
+});
 
+//* Connect to mongoDB
+// mongoose.connect(process.env.mongoDBURL, (err) => {
+//   if(err){
+//     console.error("Error:", err.message);
+//   }
+//   else{
+//     console.log("MongoDB connection successful")
+//   }
+// })
+// mongoose.connect(process.env.mongoDBURL, (err) =>{
+//   if (err) {
+//     console.error("Error: ", err.message);
+//   } else {
+//     console.log(`MongoDB connection successful`)
+//   }
+// })
+mongoose.connect(process.env.mongoDBURL, (error) => {
+  if(error){
+    console.error(error.message)
+  }
+  else{
+    console.log("MongoDB connection is successful")
+  }
+})
 module.exports = app;
