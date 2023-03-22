@@ -58,6 +58,9 @@ app.use((error, req, res, next) => {
 });
 
 //* Connect to mongoDB
+ mongoose.connect(`${process.env.MONGODBURL}`);
+
+
 // mongoose.connect(process.env.mongoDBURL, (err) => {
 //   if(err){
 //     console.error("Error:", err.message);
@@ -73,12 +76,5 @@ app.use((error, req, res, next) => {
 //     console.log(`MongoDB connection successful`)
 //   }
 // })
-mongoose.connect(process.env.mongoDBURL, (error) => {
-  if(error){
-    console.error(error.message)
-  }
-  else{
-    console.log("MongoDB connection is successful")
-  }
-})
+
 module.exports = app;
