@@ -1,7 +1,8 @@
 const express = require('express');
-const  mongoose  = require('mongoose');
+const mongoose  = require('mongoose');
 const router = express.Router();
 const Book = require('../models/book')
+
 router.get('/', (req, res, next) => {
   res.json({
     message: 'Books - GET'
