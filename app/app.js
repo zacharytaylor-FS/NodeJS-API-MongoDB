@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const cors = require('cors')
 const mongoose = require('mongoose');
 const authorRoutes = require('../api/routes/authors');
 const bookRoutes = require('../api/routes/books')
@@ -19,17 +20,18 @@ app.use(express.urlencoded({
 app.use(express.json())
 
 //* middleware to handle the CORS policy
-app.use((req, res, next) => {
-  res.header('Acces-Control-Allow-Origin','*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-Width, Content-Type, Accept, Authorization');
+// app.use((req, res, next) => {
+//   res.header('Acces-Control-Allow-Origin','*');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-Width, Content-Type, Accept, Authorization');
 
-  //* post put or patch
-  if(req.method === 'OPTIONS'){
-    res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, PATCH, DELETE');
-  }
-  next();
-})
+//   //* post put or patch
+//   if(req.method === 'OPTIONS'){
+//     res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, PATCH, DELETE');
+//   }
+//   next();
+// })
 
+app.use(cors())
 app.get('/', (req, res, next) => {
   res.status(201).json({
     message: 'Service is UP!', 

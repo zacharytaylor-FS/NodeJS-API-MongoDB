@@ -47,12 +47,7 @@ router.post('/add/:bookId', (req, res, next) => {
       })
     })
     .catch(err => {
-      console.error(error);
-      res.status(500).json({
-        error: {
-          message: "Unable to save book with title " + req.body.title
-        }
-      })
+      console.error(err);
     });
 
   })

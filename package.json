@@ -17,6 +17,7 @@
 	"author": "Zachary Taylor",
 	"license": "MIT",
 	"dependencies": {
+		"cors": "^2.8.5",
 		"dotenv": "^16.0.3",
 		"dotenv-vault": "^1.18.0",
 		"dotenv-vault-core": "^0.7.0",
