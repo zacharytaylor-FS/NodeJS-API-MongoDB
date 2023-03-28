@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/add/:authorId', (req, res, next) => {
   res.json({
     message: 'Authors - POST'
   });
@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
 router.get('/:authorId', (req, res, next) => {
   const authorId = req.params.authorId;
   res.json({
-    message: 'Authors - GET',
+    message: 'Authors - GET By Id',
     id: authorId,
 
   });

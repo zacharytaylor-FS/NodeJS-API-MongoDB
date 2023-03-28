@@ -4,7 +4,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const authorRoutes = require('../api/routes/authors');
 const bookRoutes = require('../api/routes/books')
-require('dotenv').config();
+require('dotenv-vault-core').config();
+console.log(process.env)
 
 // * middleware for logging
 app.use(morgan('dev'))
@@ -58,4 +59,10 @@ app.use((error, req, res, next) => {
 });
 
 //* Connect to mongoDB
- mongoose.connect(process.env.MONGODBURL);
+ mongoose.connect('process.env.MONGODBURL')
+ .then(() => console.log("MongoDB is up and running") )
+ .catch(err => {
+ console.error(err)
+ });
+
+ module.exports = app

@@ -111,3 +111,7 @@ dist
 
 # Text Files
 *.txt
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

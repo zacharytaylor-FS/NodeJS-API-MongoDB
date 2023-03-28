@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose  = require('mongoose');
 const router = express.Router();
-const Book = require('../models/book')
+const Book = require('../model/book')
 
 router.get('/', (req, res, next) => {
   res.json({
@@ -9,16 +9,30 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.post('/', (req, res, next) => {
+//* Create Book
+router.post('/add/:bookId', (req, res, next) => {
   
+  Book.find({
+    title: req.body.title, 
+    author: req.body.author
+  })
+  .exec()
+  .then(result => {
+    console.log(result)
+    if(result.length > 0){
+      return res.status(406).json({
+        message: "Book is already cataloged"
+      })
+    }
+
   const newBook = new Book({
     _id: mongoose.Types.ObjectId(),
     title: req.body.title,
     author: req.body.author
   });
 
-  newBook.save()
-    .then(result => {
+  newBook.save().
+    then(result => {
       console.log(result);
       res.status(200).json({
         message: "Book Saved",
@@ -33,25 +47,28 @@ router.post('/', (req, res, next) => {
       })
     })
     .catch(err => {
-      console.error(err.message);
+      console.error(error);
       res.status(500).json({
         error: {
-          message: err.message
+          message: "Unable to save book with title " + req.body.title
         }
       })
     });
 
+  })
+  
 });
 
 router.get('/:bookid', (req, res, next) => {
   const bookId = req.params.bookId;
   res.json({
-    message: 'Books - GET',
+    message: 'Books - GET By Id',
     bookId: bookId,
+
   });
 });
 
-router.patch('/:bookId', (req, res, next) => {
+router.patch('/update/:bookId', (req, res, next) => {
   const bookId = req.params.bookId;
   res.json({
     message: 'Books - PATCH',
@@ -59,7 +76,7 @@ router.patch('/:bookId', (req, res, next) => {
   });
 });
 
-router.delete('/:bookId', (req, res, next) => {
+router.delete('/delete/:bookId', (req, res, next) => {
   const bookId = req.params.bookId;
   res.json({
     message: 'Books - DELETE',
