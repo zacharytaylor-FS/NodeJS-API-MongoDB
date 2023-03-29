@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -6,12 +7,13 @@ const mongoose = require('mongoose');
 const authorRoutes = require('../api/routes/authors');
 const bookRoutes = require('../api/routes/books')
 require('dotenv-vault-core').config();
-console.log(process.env)
 
 // * middleware for logging
 app.use(morgan('dev'))
-// ^ parsing
-// ! Bodyparser - most function will be deprecated
+/** Parsing Income Request
+ * * Incoming Request parsed with JSON payloads
+ * ! Body-Parser soon to be deprecated!
+ *  */ 
 app.use(express.urlencoded({
   extended: true
 }));
@@ -20,6 +22,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 
 //* middleware to handle the CORS policy
+app.use(cors())
 // app.use((req, res, next) => {
 //   res.header('Acces-Control-Allow-Origin','*');
 //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-Width, Content-Type, Accept, Authorization');
@@ -31,7 +34,6 @@ app.use(express.json())
 //   next();
 // })
 
-app.use(cors())
 app.get('/', (req, res, next) => {
   res.status(201).json({
     message: 'Service is UP!', 
@@ -61,10 +63,11 @@ app.use((error, req, res, next) => {
 });
 
 //* Connect to mongoDB
- mongoose.connect('process.env.MONGODBURL')
+ mongoose.connect(process.env.MONGODB_URL)
  .then(() => console.log("MongoDB is up and running") )
  .catch(err => {
  console.error(err)
  });
+// console.log(process.env)
 
  module.exports = app
