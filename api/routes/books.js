@@ -46,6 +46,10 @@ router.post("/", (req, res, next) => {
 				});
 			}
 
+			/** Create Book
+			 * 
+			 * @const { Object } newBook return Instance of Book{}
+			 */
 			const newBook = new Book({
 				_id: new mongoose.Types.ObjectId(),
 				title: req.body.title,
@@ -127,18 +131,53 @@ router.get("/:bookid", (req, res, next) => {
 		});
 });
 
+//* PATCH/PUT BY ID
 router.patch("/update/:bookId", (req, res, next) => {
 	const bookId = req.params.bookId;
-	res.json({
-		message: "Books - PATCH",
-		id: bookId,
-	});
+
+	//* Create payload
+	const updatedBook = {
+		title: req.body.title,
+		author: req.body.title,
+		description: req.body.description,
+	};
+	// Book.updateOne({filter:value},{$set:payload})
+	Book.updateOne(
+		{
+			_id: bookId,
+		},
+		{
+			$set: updatedBook,
+		}
+	)
+		.then((result) => {
+			res.status(200).json({
+				message: "Updated Book",
+				book: {
+					id: result._id,
+					title: result.title,
+					author: result.author,
+					description: result.description,
+				},
+				metadata: {
+					host: req.hostname,
+					method: req.methodß,
+				},
+			});
+		})
+		.catch((err) => {
+			res.status(500).json({
+				error: {
+					message: err.message,
+				},
+			});
+		});
 });
 
 router.delete("/:bookId", (req, res, next) => {
 	const bookId = req.params.bookId;
 
-	Book.findByIdAndDelete({ _id: bookId }, { $set: deleteBook })
+	Book.findByIdAndDelete(bookId)
 		.then((result) => {
 			res.status(200).json({
 				message: "Books - DELETE",
