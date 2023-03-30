@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const Author = require("../model/author");
-const Messages = require("../../messages/messages");
+const Messages = require("../../messages/message");
 
 router.get("/", (req, res, next) => {
 	Author.find({})
@@ -12,9 +12,20 @@ router.get("/", (req, res, next) => {
 				message: "GET all Author(s)",
 				author: author,
 				name: author.name,
+				metadata: {
+					host: req.hostname,
+					method: req.method
+				}
 			});
 		})
-		.catch();
+		.catch(err => {
+			res.status(500).json({
+				error: {
+					message: err.message,
+					status: err.status
+				}
+			})
+		});
 });
 
 router.post("/", (req, res, next) => {
@@ -23,8 +34,6 @@ router.post("/", (req, res, next) => {
 		email: req.body.email,
 		name: req.body.name,
 		bio: req.body.bio,
-		phone: req.body.phone,
-		cell: req.body.cell,
 	});
 
 	newAuthor
@@ -38,8 +47,6 @@ router.post("/", (req, res, next) => {
 					email: author.email,
 					name: author.name,
 					bio: author.bio,
-					phone: author.phone,
-					cell: author.cell,
 				},
 				metadata: {
 					host: req.hostname,
@@ -58,22 +65,24 @@ router.post("/", (req, res, next) => {
 		});
 });
 
+//? Get By Id
 router.get("/:authorId", (req, res, next) => {
 	const authorId = req.params.authorId;
 
 	Author.findById(authorId)
-		.select("name _id")
-		.populate("book", "title author") //? Allow you to bring in another collection
+		// .select("name _id")
+		// .populate("book", "title author") //? Allow you to bring in another collection
 		.exec() //? RETURN PROMISE
 		.then((author) => {
-			if (!author){
-				console.log(author);
-				return res.status(404).json({
-					message: Messages.author_not_found, //* Messages 
-				});
-			}
+			// if (!author){
+			// 	console.log(author);
+			// 	return res.status(404).json({
+			// 		message: Messages.author_not_found, //* Messages 
+			// 	});
+			// }
 
 			res.status(201).json({
+				message: "GET Author by Id",
 				author: author,
 				name: author.name
 			});
@@ -87,6 +96,8 @@ router.get("/:authorId", (req, res, next) => {
 		});
 });
 
+//? PATCH/UPDATE By Id 
+//* Model.upateOne().exec().then().catch()
 router.patch("/:authorId", (req, res, next) => {
 	const authorId = req.params.authorId;
 	const name = req.body.name
