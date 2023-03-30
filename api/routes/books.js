@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const mongoose = require("mongoose");
+const Messages = require("../../messages/message")
 const router = express.Router();
 const Book = require("../model/book");
 
@@ -31,15 +32,26 @@ router.get("/", (req, res, next) => {
 		});
 });
 
-//* Create Book
+/** CREATE BOOK 
+ * ? Advance Features
+ * * Validation
+ * ToDo title: {type: String, required: true}
+ * 
+ * * 
+ * @param { Object } newBook return Instance of Book{}
+ * 
+ * */ 
 router.post("/", (req, res, next) => {
+	//* Check to see if Book exist
 	Book.find({
 		title: req.body.title,
 		author: req.body.author,
+		description: req.body.description
 	})
 		.exec() //* Makes TRUE Promise
 		.then((result) => {
 			console.log(result);
+			// IF book exit 
 			if (result.length > 0) {
 				return res.status(406).json({
 					message: "Book is already cataloged",
@@ -102,7 +114,7 @@ router.get("/:bookid", (req, res, next) => {
 			if (!book) {
 				console.log(book);
 				return res.status(404).json({
-					message: "Book Not Found",
+					message: Messages.book_not_found
 				});
 			}
 
@@ -138,7 +150,7 @@ router.patch("/update/:bookId", (req, res, next) => {
 	//* Create payload
 	const updatedBook = {
 		title: req.body.title,
-		author: req.body.title,
+		author: req.body.author,
 		description: req.body.description,
 	};
 	// Book.updateOne({filter:value},{$set:payload})
@@ -193,7 +205,7 @@ router.delete("/:bookId", (req, res, next) => {
 			});
 		})
 		.catch((err) => {
-			console.error(err.message);
+			console.log(err);
 			res.status(500).json({
 				error: {
 					message: err.message,
