@@ -31,8 +31,8 @@ router.get("/", (req, res, next) => {
 router.post("/", (req, res, next) => {
 	const newAuthor = new Author({
 		_id: new mongoose.Types.ObjectId(),
-		email: req.body.email,
 		name: req.body.name,
+		email: req.body.email,
 		bio: req.body.bio,
 	});
 
@@ -44,8 +44,8 @@ router.post("/", (req, res, next) => {
 				message: "Author Saved",
 				author: {
 					id: author._id,
-					email: author.email,
 					name: author.name,
+					email: author.email,
 					bio: author.bio,
 				},
 				metadata: {
@@ -77,7 +77,7 @@ router.get("/:authorId", (req, res, next) => {
 			// if (!author){
 			// 	console.log(author);
 			// 	return res.status(404).json({
-			// 		message: Messages.author_not_found, //* Messages 
+			// 		message: Messages.author_not_found, //* Messages
 			// 	});
 			// }
 
@@ -96,17 +96,16 @@ router.get("/:authorId", (req, res, next) => {
 		});
 });
 
-//? PATCH/UPDATE By Id 
+//? PATCH/UPDATE By Id
 //* Model.upateOne().exec().then().catch()
 router.patch("/:authorId", (req, res, next) => {
 	const authorId = req.params.authorId;
-	const name = req.body.name
+
+	//* Create Payload
 	const updatedAuthor = {
+		name: req.body.name,
 		email: req.body.email,
-		name: req.body.firstName,
 		bio: req.body.bio,
-		phone: req.body.phone,
-		cell: req.body.cell,
 	};
 
 	Author.updateOne(
@@ -114,7 +113,7 @@ router.patch("/:authorId", (req, res, next) => {
 			_id: authorId,
 		},
 		{
-			$set: updatedAuthor,
+			$set: updatedAuthor, //* $set Payload
 		}
 	)
 		.exec() //? RETURN PROMISE
@@ -122,16 +121,7 @@ router.patch("/:authorId", (req, res, next) => {
 			console.log(result);
 			res.status(200).json({
 				message: "Updated Author",
-				author: {
-					result
-					// id: result._id,
-					// email: result.email,
-					// first: result.firstName,
-					// last: result.lastName,
-					// bio: result.bio,
-					// home: result.phone,
-					// cell: result.cell,
-				},
+				result,
 				metadata: {
 					host: req.hostname,
 					status: req.status,

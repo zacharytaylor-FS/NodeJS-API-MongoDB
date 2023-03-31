@@ -7,15 +7,12 @@ const Book = require("../model/book");
 
 //* GET BOOKS
 router.get("/", (req, res, next) => {
+
 	Book.find({})
 		.then((result) => {
 			res.status(200).json({
 				message: "Get ALL Book(s)",
-				book: result,
-				// 	title: result.title,
-				// 	author: result.author,
-				// 	id: result._id,
-				// },
+				result,
 				metadata: {
 					host: req.hostname,
 					method: req.method,
@@ -32,15 +29,15 @@ router.get("/", (req, res, next) => {
 		});
 });
 
-/** CREATE BOOK 
+/** CREATE BOOK
  * ? Advance Features
  * * Validation
  * ToDo title: {type: String, required: true}
- * 
- * * 
+ *
+ * *
  * @param { Object } newBook return Instance of Book{}
- * 
- * */ 
+ *
+ * */
 router.post("/", (req, res, next) => {
 	//* Check to see if Book exist
 	Book.find({
@@ -51,7 +48,7 @@ router.post("/", (req, res, next) => {
 		.exec() //* Makes TRUE Promise
 		.then((result) => {
 			console.log(result);
-			// IF book exit 
+			// IF book exit
 			if (result.length > 0) {
 				return res.status(406).json({
 					message: "Book is already cataloged",
@@ -59,7 +56,7 @@ router.post("/", (req, res, next) => {
 			}
 
 			/** Create Book
-			 * 
+			 *
 			 * @const { Object } newBook return Instance of Book{}
 			 */
 			const newBook = new Book({
@@ -106,7 +103,7 @@ router.post("/", (req, res, next) => {
 });
 
 //* GET BY ID
-router.get("/:bookid", (req, res, next) => {
+router.get("/:bookId", (req, res, next) => {
 	const bookId = req.params.bookId;
 
 	Book.findById(bookId)
@@ -165,17 +162,17 @@ router.patch("/update/:bookId", (req, res, next) => {
 		.then((result) => {
 			res.status(200).json({
 				message: "Updated Book",
-				book: {
-					id: result._id,
-					title: result.title,
-					author: result.author,
-					description: result.description,
-				},
-				metadata: {
-					host: req.hostname,
-					method: req.methodß,
-				},
-			});
+				book:{
+					  id: result._id,
+						title: result.title,
+						author: result.author,
+						description: result.description,
+					},
+        metadata:{
+            host: req.hostname,
+            method: req.method
+        }
+      })
 		})
 		.catch((err) => {
 			res.status(500).json({
