@@ -5,6 +5,7 @@ const Author = require("../model/author");
 const Messages = require("../../messages/message");
 
 router.get("/", (req, res, next) => {
+	
 	Author.find({})
 		.exec()
 		.then((author) => {
@@ -34,6 +35,7 @@ router.post("/", (req, res, next) => {
 		name: req.body.name,
 		email: req.body.email,
 		bio: req.body.bio,
+		
 	});
 
 	newAuthor
@@ -70,30 +72,21 @@ router.get("/:authorId", (req, res, next) => {
 	const authorId = req.params.authorId;
 
 	Author.findById(authorId)
-		// .select("name _id")
-		// .populate("book", "title author") //? Allow you to bring in another collection
-		.exec() //? RETURN PROMISE
-		.then((author) => {
-			// if (!author){
-			// 	console.log(author);
-			// 	return res.status(404).json({
-			// 		message: Messages.author_not_found, //* Messages
-			// 	});
-			// }
-
-			res.status(201).json({
-				message: "GET Author by Id",
-				author: author,
-				name: author.name
-			});
+	.select("name _id")
+	.exec()
+	.then(author => {
+		console.log(author);
+		res.status(201).json({
+			author: author
 		})
-		.catch((err) => {
-			res.status(500).json({
-				error: {
-					message: err.message,
-				},
-			});
-		});
+	})
+	.catch(err => {
+		res.status(500).json({
+			error: {
+				message: err.message
+			}
+		})
+	})
 });
 
 //? PATCH/UPDATE By Id

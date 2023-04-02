@@ -1,12 +1,12 @@
-"use strict";
 const mongoose = require("mongoose");
+const { Schema } = mongoose.Schema
 
 const authorSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	book: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "Book", //* Reference Book Model
-		required: true,
+		ref: 'Book',
+		required: true
 	},
 	name: {
 		type: String,
@@ -16,10 +16,14 @@ const authorSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	age: {
+		type: Number,
+		min: 0
+	},
 	bio: {
 		type: String,
 		required: true,
 	},
 });
 
-module.exports = mongoose.model("Author", authorSchema, null, {});
+module.exports = mongoose.model("Author", authorSchema);

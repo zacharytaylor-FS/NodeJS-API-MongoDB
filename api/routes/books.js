@@ -97,7 +97,9 @@ router.post("/", (req, res, next) => {
 		.catch((err) => {
 			console.error(err.message);
 			res.status(500).json({
-				error: "Unable to save book with title:" + req.body.title,
+        error:{
+          message: "Unable to save book with title:" + req.body.title
+        }
 			});
 		});
 });
@@ -107,6 +109,7 @@ router.get("/:bookId", (req, res, next) => {
 	const bookId = req.params.bookId;
 
 	Book.findById(bookId)
+		exec()
 		.then((book) => {
 			if (!book) {
 				console.log(book);
