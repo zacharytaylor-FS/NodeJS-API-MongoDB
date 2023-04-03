@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Book = require('../api/model')
 require('dotenv').config()
 
 const connection = async () =>{
@@ -14,6 +15,11 @@ const connection = async () =>{
 const postBook = async (newBook) => {
     console.log("Real Book",newBook);
     return await newBook.save()
+}
+
+const findBook = async (object) => {
+    console.log("Find Real Book");
+    return await Book
 }
 
 const savePost = async (newPost) => {
