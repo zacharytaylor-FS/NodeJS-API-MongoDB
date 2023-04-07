@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Book = require('../api/model')
+const Book = require('../api/model/book')
 require('dotenv').config()
 
 const connection = async () =>{
@@ -31,4 +31,4 @@ const disconnect = async () => {
     await mongoose.connection.close()
 }
 
-module.exports = {connection, savePost, findBook ,postBook}
+module.exports = {connection, savePost, findBook ,postBook, disconnect}
